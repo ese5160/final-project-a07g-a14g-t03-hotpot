@@ -13,21 +13,3 @@ This codebase will be used first in A07G Exploring the CLI, then will be expande
   * Code formatting and extension recommendation files come with this repository.
   * Ctrl+Shift+V will render the README.md (maybe not the images though)
 
-# Part1: Software Architecture
-
-# Part2: Understanding the Starter Code
-
-**1. What does “InitializeSerialConsole()” do? In said function, what is “cbufRx” and “cbufTx”? What type of data structure is it?**
-
-The function InitializeSerialConsole() initializes the serial console by setting up buffers for receiving and transmitting data, configuring the USART, setting interrupt priority, and starting the reception of data. cbufRx and cbufTx are variables that store pointers to circular buffers used for handling incoming (RX) and outgoing (TX) serial data. They are "ring buffers".
-
-**2. How are “cbufRx” and “cbufTx” initialized? Where is the library that defines them (please list the C file they come from).**
-
-They are initialized using circular_buf_init(). The function takes two arguments:
-1. A pointer to the memory buffer (rxCharacterBuffer for RX and txCharacterBuffer for TX).
-2. The size of the buffer (RX_BUFFER_SIZE for RX and TX_BUFFER_SIZE for TX).
-It returns a pointer to a circular buffer structure, which is assigned to cbufRx and cbufTx. 
-They are defined in "SerialConsole.c".
-
-**
-
