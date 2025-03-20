@@ -97,3 +97,12 @@ PA16, PA17 and GND
 See uploaded code.
 
 ![alt text](image5.png)
+
+# Part6: Add CLI commands
+
+See uploaded code.
+
+![alt text](image6.png)
+
+# Part7: Using Percepio
+
