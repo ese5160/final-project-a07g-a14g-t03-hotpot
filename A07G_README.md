@@ -66,3 +66,13 @@ usart_write_callback() retrieves characters from cbufTx and sends them.
 
 The function StartTasks() is initializes application tasks in the FreeRTOS system. It prints available heap memory before starting tasks, creates a CLI (Command Line Interface) task using xTaskCreate(), and prints available heap memory after starting the CLI task.
 Only one thread is created: vCommandConsoleTask (CLI Task).
+
+# Part3: Debug Logger Module
+
+![alt text](image3.png)
+
+![alt text](image4.png)
+
+Please review LogMessage() function in SerialConsole.c.
+
+# Part4: 
