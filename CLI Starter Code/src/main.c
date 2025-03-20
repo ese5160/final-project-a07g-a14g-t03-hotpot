@@ -34,6 +34,9 @@
 #include <asf.h>
 #include "SerialConsole/SerialConsole.h"
 #include "CliThread.h"
+#include "FreeRTOS.h"
+#include "semphr.h"
+#include "circular_buffer.h"
 /******************************************************************************
  * Includes
  ******************************************************************************/
@@ -52,6 +55,8 @@
 static char bufferPrint[64];			  ///< Buffer for daemon task
 static TaskHandle_t cliTaskHandle = NULL; //!< CLI task handle
 
+
+
 #define MAX_RX_BUFFER_LENGTH 5
 volatile uint8_t rx_buffer[MAX_RX_BUFFER_LENGTH];
 
@@ -61,13 +66,16 @@ int main(void)
 {
 	// Board Initialization -- Code that initializes the HW and happens only once
 	system_init();
+
 	InitializeSerialConsole();
 
 	/* Insert application code here, after the board has been initialized. */
 
 	system_interrupt_enable_global();
+	
 
 	 SerialConsoleWriteString("ESE5160 - CLI and Debug Logger\r\n"); // Order to add string to TX Buffer
+	 
 
 	 char string[] = "CLI starter code - ESE516\r\n";
 
@@ -80,11 +88,16 @@ int main(void)
 
 	 LogMessage(LOG_INFO_LVL, "ESE5160 CLI STARTER PROJECT STARTED\r\n");
 
-	// Start FreeRTOS scheduler.
-	vTaskStartScheduler();
+	
 
-	while (1)
-		;
+    ///<start freertos
+    vTaskStartScheduler();
+
+    ///< if failed
+    while (1);
+
+    return 0;
+	
 }
 
 /**************************************************************************/ 
@@ -144,3 +157,6 @@ void vApplicationStackOverflowHook(void)
 	while (1)
 		;
 }
+
+// Clear screen command
+

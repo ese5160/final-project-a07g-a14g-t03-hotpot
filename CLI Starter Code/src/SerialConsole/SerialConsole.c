@@ -28,18 +28,24 @@
  ******************************************************************************/
 #include "SerialConsole.h"
 
+
 /******************************************************************************
  * Defines
  ******************************************************************************/
 #define RX_BUFFER_SIZE 512 ///< Size of character buffer for RX, in bytes
 #define TX_BUFFER_SIZE 512 ///< Size of character buffers for TX, in bytes
+<<<<<<< Updated upstream
 #define LOG_BUFFER_SIZE 256 ///< Size of the LOG buffer
+=======
+#define LOG_BUFFER_SIZE 256
+>>>>>>> Stashed changes
 
 /******************************************************************************
  * Structures and Enumerations
  ******************************************************************************/
 cbuf_handle_t cbufRx; ///< Circular buffer handler for receiving characters
 cbuf_handle_t cbufTx; ///< Circular buffer handler for transmitting characters
+SemaphoreHandle_t xRxMutex;
 
 char latestRx; ///< Holds the latest character received
 char latestTx; ///< Holds the latest character to be transmitted
@@ -64,6 +70,9 @@ char rxCharacterBuffer[RX_BUFFER_SIZE]; 			   ///< Buffer to store received char
 char txCharacterBuffer[TX_BUFFER_SIZE]; 			   ///< Buffer to store characters to be sent
 enum eDebugLogLevels currentDebugLevel = LOG_INFO_LVL; ///< Default debug level
 
+// Global semaphore handle
+SemaphoreHandle_t xRxSemaphore;
+
 /******************************************************************************
  * Global Functions
  ******************************************************************************/
@@ -73,18 +82,30 @@ enum eDebugLogLevels currentDebugLevel = LOG_INFO_LVL; ///< Default debug level
  */
 void InitializeSerialConsole(void)
 {
-    // Initialize circular buffers for RX and TX
+    ///< Initialize circular buffers for RX and TX
 	cbufRx = circular_buf_init((uint8_t *)rxCharacterBuffer, RX_BUFFER_SIZE);
     cbufTx = circular_buf_init((uint8_t *)txCharacterBuffer, TX_BUFFER_SIZE);
+	xRxSemaphore = xSemaphoreCreateBinary();
+	if (xRxSemaphore == NULL) {
+		SerialConsoleWriteString("[ERROR] xRxSemaphore Creation Failed!\r\n");
+	} else {
+		SerialConsoleWriteString("[INFO] xRxSemaphore Created Successfully, Resetting to Empty\r\n");
+		xSemaphoreTake(xRxSemaphore, 0);  ///< ensure it is not called by mistake
+	}
+	xRxMutex = xSemaphoreCreateMutex();  ///<creating mutex
+	if (xRxMutex == NULL)
+	{
+		SerialConsoleWriteString("Error: xRxMutex creation failed!\n");
+	}
 
-    // Configure USART and Callbacks
+    ///< Configure USART and Callbacks
 	configure_usart();
     configure_usart_callbacks();
     NVIC_SetPriority(SERCOM4_IRQn, 10);
 
-    usart_read_buffer_job(&usart_instance, (uint8_t *)&latestRx, 1); // Kicks off constant reading of characters
+    usart_read_buffer_job(&usart_instance, (uint8_t *)&latestRx, 1); ///< Kicks off constant reading of characters
 
-	// Add any other calls you need to do to initialize your Serial Console
+	///< Add any other calls you need to do to initialize your Serial Console
 }
 
 /**
@@ -152,6 +173,7 @@ void setLogLevel(enum eDebugLogLevels debugLevel)
  */
 void LogMessage(enum eDebugLogLevels level, const char *format, ...)
 {
+<<<<<<< Updated upstream
     
 	///< Check if the message's level is >= the current log level
 	if (level < LOG_INFO_LVL)
@@ -160,16 +182,33 @@ void LogMessage(enum eDebugLogLevels level, const char *format, ...)
 	}
 
 	char logBuffer[LOG_BUFFER_SIZE]; ///< Buffer for the formatted message
+=======
+	// Check if the message's level is >= the current log level
+	if (level < LOG_INFO_LVL)
+	{
+		return; // Do not log messages that are below the threshold
+	}
+
+	char logBuffer[LOG_BUFFER_SIZE]; // Buffer for the formatted message
+>>>>>>> Stashed changes
 
 	va_list args;
 	va_start(args, format);
 
+<<<<<<< Updated upstream
 	///< Format the log message
+=======
+	// Format the log message
+>>>>>>> Stashed changes
 	vsnprintf(logBuffer, LOG_BUFFER_SIZE, format, args);
 
 	va_end(args);
 
+<<<<<<< Updated upstream
 	///< Send the formatted log message to the Serial Console
+=======
+	// Send the formatted log message to the Serial Console
+>>>>>>> Stashed changes
 	SerialConsoleWriteString(logBuffer);
 }
 
@@ -236,10 +275,28 @@ static void configure_usart_callbacks(void)
 		 Students to fill out. Please note that the code here is dummy code. It is only used to show you how some functions work.
  * @note
  *****************************************************************************/
-void usart_read_callback(struct usart_module *const usart_module)
-{
-	// ToDo: Complete this function 
+void usart_read_callback(struct usart_module *const usart_module) {  
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+    if (xSemaphoreTakeFromISR(xRxMutex, &xHigherPriorityTaskWoken) == pdTRUE)  
+    {  
+        if (circular_buf_put2(cbufRx, latestRx) == 0) {  
+            xSemaphoreGiveFromISR(xRxSemaphore, &xHigherPriorityTaskWoken);  
+        }  
+        xSemaphoreGiveFromISR(xRxMutex, &xHigherPriorityTaskWoken);  
+    }  
+
+    //< ensure usart_read_buffer_job() is always called
+    while (usart_read_buffer_job(&usart_instance, (uint8_t *)&latestRx, 1) != STATUS_OK) {
+        ///<wait
+    }
+
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);  
 }
+
+
+
+
 
 /**************************************************************************/ 
 /**

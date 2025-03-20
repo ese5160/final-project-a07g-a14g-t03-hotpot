@@ -33,6 +33,12 @@
  #include <string.h>
  #include <stdarg.h>
  #include "circular_buffer.h"
+ #include "FreeRTOS.h"
+ #include "semphr.h"
+ 
+ extern cbuf_handle_t cbufRx;
+ extern SemaphoreHandle_t xRxSemaphore;
+ extern SemaphoreHandle_t xRxMutex;
  
  /******************************************************************************
   * Enumerations

@@ -10,17 +10,28 @@
  * Includes
  ******************************************************************************/
 #include "CliThread.h"
+#include "queue.h"
+#include "SerialConsole.h"
+#include "circular_buffer.h"
 
 /******************************************************************************
  * Defines
  ******************************************************************************/
+#define FIRMWARE_VERSION "0.0.1"
 
 /******************************************************************************
  * Variables
  ******************************************************************************/
+
+static QueueHandle_t xRxQueue; ///< Global or static queue for received characters
+
 static int8_t *const pcWelcomeMessage =
     "FreeRTOS CLI.\r\nType Help to view a list of registered commands.\r\n";
 
+
+/******************************************************************************
+ * Forward Declarations
+ ******************************************************************************/
 // Clear screen command
 const CLI_Command_Definition_t xClearScreen =
     {
@@ -35,14 +46,55 @@ static const CLI_Command_Definition_t xResetCommand =
         "reset: Resets the device\r\n",
         (const pdCOMMAND_LINE_CALLBACK)CLI_ResetDevice,
         0};
+		
+// CLI command definitions
+static const CLI_Command_Definition_t xVersionCommand =
+{
+	"version",
+	"version: Displays the firmware version.\r\n",
+	(const pdCOMMAND_LINE_CALLBACK)CLI_GetVersion,
+	0
+};
+
+static const CLI_Command_Definition_t xTicksCommand =
+{
+	"ticks",
+	"ticks: Displays system tick count since startup.\r\n",
+	(const pdCOMMAND_LINE_CALLBACK)CLI_GetTicks,
+	0
+};
+
+
+void Init_CLI_Queue(void)
+{
+    ///< Initialize the queue to hold received characters
+    xRxQueue = xQueueCreate(10, sizeof(char)); ///< Queue can hold up to 10 characters
+}
+
+
 
 /******************************************************************************
- * Forward Declarations
+ * FreeRTOS_read
  ******************************************************************************/
-static void FreeRTOS_read(char *character);
-/******************************************************************************
- * Callback Functions
- ******************************************************************************/
+static void FreeRTOS_read(char *character) {  
+    if (character == NULL) {  
+        return;  
+    }  
+
+    ///< wait for data
+    if (xSemaphoreTake(xRxSemaphore, portMAX_DELAY) == pdPASS)  
+    {  
+        if (xSemaphoreTake(xRxMutex, portMAX_DELAY) == pdPASS)  
+        {  
+            if (circular_buf_get(cbufRx, (uint8_t *)character) != 0) {  
+                *character = '\0'; 
+            }  
+            xSemaphoreGive(xRxMutex);  
+        }  
+    }  
+}
+
+
 
 /******************************************************************************
  * CLI Thread
@@ -54,6 +106,8 @@ void vCommandConsoleTask(void *pvParameters)
 
     FreeRTOS_CLIRegisterCommand(&xClearScreen);
     FreeRTOS_CLIRegisterCommand(&xResetCommand);
+	FreeRTOS_CLIRegisterCommand(&xVersionCommand);  ///< register
+	FreeRTOS_CLIRegisterCommand(&xTicksCommand);    ///< register
 
     uint8_t cRxedChar[2], cInputIndex = 0;
     BaseType_t xMoreDataToFollow;
@@ -207,6 +261,7 @@ void vCommandConsoleTask(void *pvParameters)
     }
 }
 
+
 /**************************************************************************/ /**
  * @fn			void FreeRTOS_read(char* character)
  * @brief		STUDENTS TO COMPLETE. This function block the thread unless we received a character. How can we do this?
@@ -214,11 +269,6 @@ void vCommandConsoleTask(void *pvParameters)
  * @details		STUDENTS TO COMPLETE.
  * @note
  *****************************************************************************/
-static void FreeRTOS_read(char *character)
-{
-    // ToDo: Complete this function
-    vTaskSuspend(NULL); // We suspend ourselves. Please remove this when doing your code
-}
 
 /******************************************************************************
  * CLI Functions - Define here
@@ -241,4 +291,19 @@ BaseType_t CLI_ResetDevice(int8_t *pcWriteBuffer, size_t xWriteBufferLen, const 
 {
     system_reset();
     return pdFALSE;
+}
+
+// CLI command: version
+BaseType_t CLI_GetVersion(int8_t *pcWriteBuffer, size_t xWriteBufferLen, const int8_t *pcCommandString)
+{
+	snprintf(pcWriteBuffer, xWriteBufferLen, "Firmware Version: %s\r\n", FIRMWARE_VERSION);
+	return pdFALSE;
+}
+
+// CLI command: ticks
+BaseType_t CLI_GetTicks(int8_t *pcWriteBuffer, size_t xWriteBufferLen, const int8_t *pcCommandString)
+{
+	TickType_t ticks = xTaskGetTickCount();  ///< get ticks
+	snprintf(pcWriteBuffer, xWriteBufferLen, "System Ticks: %lu\r\n", (unsigned long)ticks);
+	return pdFALSE;
 }
