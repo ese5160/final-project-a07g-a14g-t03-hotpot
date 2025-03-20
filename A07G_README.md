@@ -75,4 +75,25 @@ Only one thread is created: vCommandConsoleTask (CLI Task).
 
 Please review LogMessage() function in SerialConsole.c.
 
-# Part4: 
+# Part4: Wiretap the convo!
+
+**1. What nets must you attach the logic analyzer to?**
+
+TX (Transmit)
+RX (Receive)
+GND (Common Ground)
+
+**2. Where on the circuit board can you attach / solder to?**
+
+PA16, PA17 and GND
+
+**3. What are critical settings for the logic analyzer?**
+
+
+
+
+# Part5: Complete the CLI
+
+See uploaded code.
+
+![alt text](image5.png)
