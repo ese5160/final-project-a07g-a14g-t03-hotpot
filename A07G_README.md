@@ -176,5 +176,4 @@ See uploaded code.
 
 ![alt text](image6.png)
 
-# Part7: Using Percepio
 
