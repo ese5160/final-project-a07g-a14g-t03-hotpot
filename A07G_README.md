@@ -2,11 +2,76 @@
 
 * Team Number: T03
 * Team Name: Super Hotpot
-* Team Members: Lixi Jiang, Jinyu Hua
+* Team Members: Lixi Jiang, Jingyu Hua
 * GitHub Repository URL: https://github.com/ese5160/final-project-a07g-a14g-t03-hotpot.git
 * Description of test hardware: (development boards, sensors, actuators, laptop + OS, etc)
 
 # Part1: Software Architecture
+
+## HRS
+
+### Overview
+A desktop companion device based on SAMW25 microcontroller, featuring a 4-inch LCD display, IMU, photoresistor, LED strip, RTC, and powered by a Li-Ion battery.
+
+### Definitions, Abbreviations
+LCD: Liquid Crystal Display
+RTC: Real-time Clock
+IMU: Inertial measurement unit
+
+### Functionality
+HRS 01 - Project shall be based on SAMW25 microcontroller operating at 3.7V from Li-Ion battery
+
+HRS 02 - A 4-inch LCD should be used for user interface.
+
+HRS 03 - An IMU shall communicate via I2C bus for shake detection and gaming input
+
+HRS 04 - A photoresistor shall be used for ambient light detection
+
+HRS 05 - A LED strip shall provide ambient lighting, controlled by single GPIO pin
+
+HRS 06 - Three tactile buttons shall connect directly to GPIO pins for user input
+
+HRS 07 - System shall include battery management and voltage regulation circuitry for 3.7V Li-Ion battery
+
+HRS 08 - A buzzer shall be used for alarm and game sounds
+
+HRS 09 - DS3231 RTC module shall communicate via I2C bus for accurate timekeeping
+
+![1742836563786](image/A07G_README/1742836563786.png)
+
+![1742838026798](image/A07G_README/1742838026798.png)
+
+![1742848856998](image/A07G_README/1742848856998.png)
+
+## SRS
+
+### Overview
+Multithreaded embedded software system managing time display, sensor monitoring, user interface, cloud connectivity.
+
+### Functional Requirements
+SRS 01 - The system shall display the current time fetched from the RTC module.
+
+SRS 02 - The system shall display real-time temperature information from online weather API.
+
+SRS 03 - The user shall be able to add, edit, and delete to-do items via the LCD interface.
+
+SRS 04 - Shaking the device several times with significant motion, detected via IMU, will dismiss the alarm.
+
+SRS 05 - The system shall implement a multi-level menu structure navigable via three side buttons.
+
+SRS 06 - The system shall support simple games (e.g., obstacle avoidance) controlled via IMU or buttons.
+
+SRS 07 - The system shall adjust LCD brightness based on ambient light detected by photoresistor. When ambient light falls below a certain threshold, the LED strip shall activate with colorful patterns.
+
+SRS 08 - Users shall set countdown timers with alarm sound at the end. Shaking the device will also dismiss the timer alarm.
+
+SRS 09 - GUI shall update display at minimum 30Hz refresh rate.
+
+SRS 10 - The system shall respond to user input within 1s.
+
+SRS 11 - Alarm and timer accuracy shall be within 1 second.
+
+
 
 # Part2: Understanding the Starter Code
 
