@@ -34,11 +34,9 @@
  ******************************************************************************/
 #define RX_BUFFER_SIZE 512 ///< Size of character buffer for RX, in bytes
 #define TX_BUFFER_SIZE 512 ///< Size of character buffers for TX, in bytes
-<<<<<<< Updated upstream
+
 #define LOG_BUFFER_SIZE 256 ///< Size of the LOG buffer
-=======
-#define LOG_BUFFER_SIZE 256
->>>>>>> Stashed changes
+
 
 /******************************************************************************
  * Structures and Enumerations
@@ -173,7 +171,7 @@ void setLogLevel(enum eDebugLogLevels debugLevel)
  */
 void LogMessage(enum eDebugLogLevels level, const char *format, ...)
 {
-<<<<<<< Updated upstream
+
     
 	///< Check if the message's level is >= the current log level
 	if (level < LOG_INFO_LVL)
@@ -182,33 +180,20 @@ void LogMessage(enum eDebugLogLevels level, const char *format, ...)
 	}
 
 	char logBuffer[LOG_BUFFER_SIZE]; ///< Buffer for the formatted message
-=======
-	// Check if the message's level is >= the current log level
-	if (level < LOG_INFO_LVL)
-	{
-		return; // Do not log messages that are below the threshold
-	}
 
-	char logBuffer[LOG_BUFFER_SIZE]; // Buffer for the formatted message
->>>>>>> Stashed changes
 
 	va_list args;
 	va_start(args, format);
 
-<<<<<<< Updated upstream
 	///< Format the log message
-=======
-	// Format the log message
->>>>>>> Stashed changes
+
 	vsnprintf(logBuffer, LOG_BUFFER_SIZE, format, args);
 
 	va_end(args);
 
-<<<<<<< Updated upstream
-	///< Send the formatted log message to the Serial Console
-=======
+
 	// Send the formatted log message to the Serial Console
->>>>>>> Stashed changes
+
 	SerialConsoleWriteString(logBuffer);
 }
 
