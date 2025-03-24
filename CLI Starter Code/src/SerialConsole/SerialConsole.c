@@ -76,7 +76,7 @@ SemaphoreHandle_t xRxSemaphore;
  ******************************************************************************/
 
 /**
- * @brief Initializes the UART and registers callbacks.
+ * @brief Initializes the UART and registers callbacks. Create xRxSemaphore to notify.
  */
 void InitializeSerialConsole(void)
 {
