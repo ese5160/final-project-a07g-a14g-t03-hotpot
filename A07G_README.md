@@ -150,12 +150,19 @@ GND (Common Ground)
 
 **2. Where on the circuit board can you attach / solder to?**
 
-PA16, PA17 and GND
+PB10(TX), PB11(RX) and GND
 
 **3. What are critical settings for the logic analyzer?**
 
+![1742851285780](image/A07G_README/1742851285780.png)
 
+![1742851388067](image/A07G_README/1742851388067.png)
 
+Channel 0 connect with PB10 and GND.
+
+![1742851478300](image/A07G_README/1742851478300.png)
+
+Capture file path: ./Session 0.sal
 
 # Part5: Complete the CLI
 
