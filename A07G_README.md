@@ -77,7 +77,7 @@ SRS 11 - Alarm and timer accuracy shall be within 1 second.
 
 **1. What does “InitializeSerialConsole()” do? In said function, what is “cbufRx” and “cbufTx”? What type of data structure is it?**
 
-The function InitializeSerialConsole() initializes the serial console by setting up buffers for receiving and transmitting data, configuring the USART, setting interrupt priority, and starting the reception of data. cbufRx and cbufTx are variables that store pointers to circular buffers used for handling incoming (RX) and outgoing (TX) serial data. They are "ring buffers".
+The function InitializeSerialConsole() initializes the serial console by setting up buffers for receiving and transmitting data, configuring the USART, setting interrupt priority, and starting the reception of data. cbufRx and cbufTx are variables that store pointers to circular buffers used for handling incoming (RX) and outgoing (TX) serial data. They are "ring buffers". Data structure for them is FIFO.
 
 **2. How are “cbufRx” and “cbufTx” initialized? Where is the library that defines them (please list the C file they come from).**
 
@@ -89,13 +89,13 @@ They are defined in "SerialConsole.c".
 
 **3. Where are the character arrays where the RX and TX characters are being stored at the end? Please mention their name and size.**
 
-RX characters are stored in the "rxCharacterBuffer", and the size is RX_BUFFER_SIZE (which is defined as 512 bytes). TX characters are stored in the "txCharacterBuffer", and the size is TX_BUFFER_SIZE (which is defined as 512 bytes).
+RX characters are stored in the "rxCharacterBuffer[ ]", and the size is RX_BUFFER_SIZE (which is defined as 512 bytes). TX characters are stored in the "txCharacterBuffer[ ]", and the size is TX_BUFFER_SIZE (which is defined as 512 bytes).
 
 **4. Where are the interrupts for UART character received and UART character sent defined?**
 
 They are defined in usart_interrupt.c. 
-The receive interrupt is triggered inside the function: void _usart_interrupt_handler(uint8_t instance);
-The send interrupt is triggered inside the function: void _usart_interrupt_handler(uint8_t instance).
+The receive and send interrupt is triggered inside the function: void _usart_interrupt_handler(uint8_t instance);
+
 
 **5. What are the callback functions that are called when: A character is received? (RX), A character has been sent? (TX)**
 
@@ -121,11 +121,11 @@ usart_write_callback() retrieves characters from cbufTx and sends them.
 
 **7. Draw a diagram that explains the program flow for UART receive – starting with the user typing a character and ending with how that characters ends up in the circular buffer “cbufRx”. Please make reference to specific functions in the starter code.**
 
-![alt text](image1.png)
+![alt text](image-1.png)
 
 **8. Draw a diagram that explains the program flow for the UART transmission – starting from a string added by the program to the circular buffer “cbufTx” and ending on characters being shown on the screen of a PC (On Teraterm, for example). Please make reference to specific functions in the starter code.**
 
-![alt text](image2.png)
+![alt text](image-2.png)
 
 **9. What is done on the function “startStasks()” in main.c? How many threads are started?**
 
@@ -144,8 +144,8 @@ Please review LogMessage() function in SerialConsole.c.
 
 **1. What nets must you attach the logic analyzer to?**
 
-TX (Transmit)
-RX (Receive)
+TX (Transmit): SERCOM4_PAD2
+RX (Receive): SERCOM4_PAD3
 GND (Common Ground)
 
 **2. Where on the circuit board can you attach / solder to?**
