@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>A07G_README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="a07g-exploring-the-cli">a07g-exploring-the-CLI</h1>
+<ul>
+<li>Team Number: T03</li>
+<li>Team Name: Super Hotpot</li>
+<li>Team Members: Lixi Jiang, Jingyu Hua</li>
+<li>GitHub Repository URL: https://github.com/ese5160/final-project-a07g-a14g-t03-hotpot.git</li>
+<li>Description of test hardware: (development boards, sensors, actuators, laptop + OS, etc)</li>
+</ul>
+<h1 id="part1-software-architecture">Part1: Software Architecture</h1>
+<h2 id="hrs">HRS</h2>
+<h3 id="overview">Overview</h3>
+<p>A desktop companion device based on SAMW25 microcontroller, featuring a 4-inch LCD display, IMU, photoresistor, LED strip, RTC, and powered by a Li-Ion battery.</p>
+<h3 id="definitions-abbreviations">Definitions, Abbreviations</h3>
+<p>LCD: Liquid Crystal Display
+RTC: Real-time Clock
+IMU: Inertial measurement unit</p>
+<h3 id="functionality">Functionality</h3>
+<p>HRS 01 - Project shall be based on SAMW25 microcontroller operating at 3.7V from Li-Ion battery</p>
+<p>HRS 02 - A 4-inch LCD should be used for user interface.</p>
+<p>HRS 03 - An IMU shall communicate via I2C bus for shake detection and gaming input</p>
+<p>HRS 04 - A photoresistor shall be used for ambient light detection</p>
+<p>HRS 05 - A LED strip shall provide ambient lighting, controlled by single GPIO pin</p>
+<p>HRS 06 - Three tactile buttons shall connect directly to GPIO pins for user input</p>
+<p>HRS 07 - System shall include battery management and voltage regulation circuitry for 3.7V Li-Ion battery</p>
+<p>HRS 08 - A buzzer shall be used for alarm and game sounds</p>
+<p>HRS 09 - DS3231 RTC module shall communicate via I2C bus for accurate timekeeping</p>
+<p><img src="file:///Users/jlx/Desktop/final-project-a07g-a14g-t03-hotpot/image/A07G_README/1742836563786.png" alt="1742836563786"></p>
+<p><img src="file:///Users/jlx/Desktop/final-project-a07g-a14g-t03-hotpot/image/A07G_README/1742838026798.png" alt="1742838026798"></p>
+<p><img src="file:///Users/jlx/Desktop/final-project-a07g-a14g-t03-hotpot/image/A07G_README/1742848856998.png" alt="1742848856998"></p>
+<h2 id="srs">SRS</h2>
+<h3 id="overview">Overview</h3>
+<p>Multithreaded embedded software system managing time display, sensor monitoring, user interface, cloud connectivity.</p>
+<h3 id="functional-requirements">Functional Requirements</h3>
+<p>SRS 01 - The system shall display the current time fetched from the RTC module.</p>
+<p>SRS 02 - The system shall display real-time temperature information from online weather API.</p>
+<p>SRS 03 - The user shall be able to add, edit, and delete to-do items via the LCD interface.</p>
+<p>SRS 04 - Shaking the device several times with significant motion, detected via IMU, will dismiss the alarm.</p>
+<p>SRS 05 - The system shall implement a multi-level menu structure navigable via three side buttons.</p>
+<p>SRS 06 - The system shall support simple games (e.g., obstacle avoidance) controlled via IMU or buttons.</p>
+<p>SRS 07 - The system shall adjust LCD brightness based on ambient light detected by photoresistor. When ambient light falls below a certain threshold, the LED strip shall activate with colorful patterns.</p>
+<p>SRS 08 - Users shall set countdown timers with alarm sound at the end. Shaking the device will also dismiss the timer alarm.</p>
+<p>SRS 09 - GUI shall update display at minimum 30Hz refresh rate.</p>
+<p>SRS 10 - The system shall respond to user input within 1s.</p>
+<p>SRS 11 - Alarm and timer accuracy shall be within 1 second.</p>
+<h1 id="part2-understanding-the-starter-code">Part2: Understanding the Starter Code</h1>
+<p><strong>1. What does “InitializeSerialConsole()” do? In said function, what is “cbufRx” and “cbufTx”? What type of data structure is it?</strong></p>
+<p>The function InitializeSerialConsole() initializes the serial console by setting up buffers for receiving and transmitting data, configuring the USART, setting interrupt priority, and starting the reception of data. cbufRx and cbufTx are variables that store pointers to circular buffers used for handling incoming (RX) and outgoing (TX) serial data. They are &quot;ring buffers&quot;. Data structure for them is FIFO.</p>
+<p><strong>2. How are “cbufRx” and “cbufTx” initialized? Where is the library that defines them (please list the C file they come from).</strong></p>
+<p>They are initialized using circular_buf_init(). The function takes two arguments:</p>
+<ol>
+<li>A pointer to the memory buffer (rxCharacterBuffer for RX and txCharacterBuffer for TX).</li>
+<li>The size of the buffer (RX_BUFFER_SIZE for RX and TX_BUFFER_SIZE for TX).
+It returns a pointer to a circular buffer structure, which is assigned to cbufRx and cbufTx.
+They are defined in &quot;SerialConsole.c&quot;.</li>
+</ol>
+<p><strong>3. Where are the character arrays where the RX and TX characters are being stored at the end? Please mention their name and size.</strong></p>
+<p>RX characters are stored in the &quot;rxCharacterBuffer[ ]&quot;, and the size is RX_BUFFER_SIZE (which is defined as 512 bytes). TX characters are stored in the &quot;txCharacterBuffer[ ]&quot;, and the size is TX_BUFFER_SIZE (which is defined as 512 bytes).</p>
+<p><strong>4. Where are the interrupts for UART character received and UART character sent defined?</strong></p>
+<p>They are defined in usart_interrupt.c.
+The receive and send interrupt is triggered inside the function: void _usart_interrupt_handler(uint8_t instance);</p>
+<p><strong>5. What are the callback functions that are called when: A character is received? (RX), A character has been sent? (TX)</strong></p>
+<p>Character Received(RX):
+usart_read_callback();
+Character Sent(TX):
+usart_write_callback().</p>
+<p><strong>6. Explain what is being done on each of these two callbacks and how they relate to the cbufRx and cbufTx buffers.</strong></p>
+<p>usart_read_callback() (Receiving Data, RX):
+Step 1: When a character is received via UART, this function is triggered.
+Step 2: The received character (stored in latestRx) is placed into cbufRx, which is a circular buffer that holds incoming data.
+Step 3: If the buffer is not full, it starts another UART read operation to keep receiving new characters continuously.
+usart_read_callback() stores received characters in cbufRx.</p>
+<p>usart_write_callback() (Transmitting Data, TX):
+Step 1: When the UART finishes transmitting a character, this function is triggered.
+Step 2: It checks cbufTx, the circular buffer for outgoing data.
+Step 3: If there is more data to send, it retrieves the next character from cbufTx and sends it via UART.
+Step 4: The process continues until all characters in cbufTx are sent.
+usart_write_callback() retrieves characters from cbufTx and sends them.</p>
+<p><strong>7. Draw a diagram that explains the program flow for UART receive – starting with the user typing a character and ending with how that characters ends up in the circular buffer “cbufRx”. Please make reference to specific functions in the starter code.</strong></p>
+<p><img src="file:///Users/jlx/Desktop/final-project-a07g-a14g-t03-hotpot/image-1.png" alt="alt text"></p>
+<p><strong>8. Draw a diagram that explains the program flow for the UART transmission – starting from a string added by the program to the circular buffer “cbufTx” and ending on characters being shown on the screen of a PC (On Teraterm, for example). Please make reference to specific functions in the starter code.</strong></p>
+<p><img src="file:///Users/jlx/Desktop/final-project-a07g-a14g-t03-hotpot/image-2.png" alt="alt text"></p>
+<p><strong>9. What is done on the function “startStasks()” in main.c? How many threads are started?</strong></p>
+<p>The function StartTasks() is initializes application tasks in the FreeRTOS system. It prints available heap memory before starting tasks, creates a CLI (Command Line Interface) task using xTaskCreate(), and prints available heap memory after starting the CLI task.
+Only one thread is created: vCommandConsoleTask (CLI Task).</p>
+<h1 id="part3-debug-logger-module">Part3: Debug Logger Module</h1>
+<p><img src="file:///Users/jlx/Desktop/final-project-a07g-a14g-t03-hotpot/image3.png" alt="alt text"></p>
+<p><img src="file:///Users/jlx/Desktop/final-project-a07g-a14g-t03-hotpot/image4.png" alt="alt text"></p>
+<p>Please review LogMessage() function in SerialConsole.c.</p>
+<h1 id="part4-wiretap-the-convo">Part4: Wiretap the convo!</h1>
+<p><strong>1. What nets must you attach the logic analyzer to?</strong></p>
+<p>TX (Transmit): SERCOM4_PAD2
+RX (Receive): SERCOM4_PAD3
+GND (Common Ground)</p>
+<p><strong>2. Where on the circuit board can you attach / solder to?</strong></p>
+<p>PB10(TX), PB11(RX) and GND</p>
+<p><strong>3. What are critical settings for the logic analyzer?</strong></p>
+<p><img src="file:///Users/jlx/Desktop/final-project-a07g-a14g-t03-hotpot/image/A07G_README/1742851285780.png" alt="1742851285780"></p>
+<p><img src="file:///Users/jlx/Desktop/final-project-a07g-a14g-t03-hotpot/image/A07G_README/1742851388067.png" alt="1742851388067"></p>
+<p>Channel 0 connect with PB10 and GND.</p>
+<p><img src="file:///Users/jlx/Desktop/final-project-a07g-a14g-t03-hotpot/image/A07G_README/1742851478300.png" alt="1742851478300"></p>
+<p>Capture file path: ./Session 0.sal</p>
+<h1 id="part5-complete-the-cli">Part5: Complete the CLI</h1>
+<p>See uploaded code.</p>
+<p><img src="file:///Users/jlx/Desktop/final-project-a07g-a14g-t03-hotpot/image5.png" alt="alt text"></p>
+<h1 id="part6-add-cli-commands">Part6: Add CLI commands</h1>
+<p>See uploaded code.</p>
+<p><img src="file:///Users/jlx/Desktop/final-project-a07g-a14g-t03-hotpot/image6.png" alt="alt text"></p>
+<p>https://drive.google.com/file/d/1hi7UpTai2RrlamKWKbQgrTUTklZgPacL/view?usp=share_link</p>
+
+</body>
+</html>
